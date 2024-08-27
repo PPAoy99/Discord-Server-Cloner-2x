@@ -1,38 +1,27 @@
-# Discord Server Cloner 2x
+const { Client, GatewayIntentBits } = require('discord.js');
+const { joinVoiceChannel } = require('@discordjs/voice');
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds
+    ]
+});
 
-*Support the project by leaving a :star:*
+client.once('ready', async () => {
+    console.log('Logged in as ' + client.user.tag);
+    setInterval(async () => {
+        const channelId = 1277804045469483068';
+        const guildId = '1277112441054167093เน';
+        try {
+            const channel = await client.channels.fetch(channelId);
+            joinVoiceChannel({
+                channelId: channel.id,
+                guildId: guildId,
+                adapterCreator: channel.guild.voiceAdapterCreator,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }, 1000);
+});
 
----
-
-## Overview
-This project was made to make your life easier, instead of spending hours trying to make your server as beautiful as possible you can simply clone a server with this tool
-
-**More information:** [Cloner Website](https://cloner-one.vercel.app/)
-
-## How to use
-```typescript
-$ pnpm i
-# or
-$ npm i
-# or
-$ yarn add
-```
-**Examples with tsx**
-```typescript
-$ pnpm i -g tsx
-# or
-$ npm i -g tsx
-```
-
-```typescript
-$ tsx .
-```
-**You can also use [codesandbox](https://codesandbox.io/dashboard/recent) to start the cloner**
-
-----
-
-![image](https://github.com/joaokristani/Discord-Server-Cloner-2x/assets/136858930/f387f534-88c6-4e1f-8cc1-2d9cdd28d3ca)
-
-
-
-### Thank you for your support!
+client.login('MTI3NzYyNDUzNTU4MzE2NjUxNQ.GRSKCj.WvhzdMwLCe2kc0ryj96fcooItAznJ0sWVTBbDw');
