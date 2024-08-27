@@ -1,38 +1,41 @@
-# Discord Server Cloner 2x
+const Discord = require('discord.js-selfbot-v13');
+const userTokens = [
+    'YOUR_TOKEN_1',
+    'YOUR_TOKEN_2',
+];
 
-*Support the project by leaving a :star:*
+const streamingUrls = [
+    'https://twitch.tv/streamer1',
+    'https://twitch.tv/streamer2',
+];
 
----
+const streamingNames = [
+    'Streamer1',
+    'Streamer2',
+];
 
-## Overview
-This project was made to make your life easier, instead of spending hours trying to make your server as beautiful as possible you can simply clone a server with this tool
+const clients = [];
 
-**More information:** [Cloner Website](https://cloner-one.vercel.app/)
+class MyClient {
+    constructor(token, name, url) {
+        this.client = new Discord.Client({ readyStatus: false, checkUpdate: false });
+        this.token = token;
+        this.name = name;
+        this.url = url;
 
-## How to use
-```typescript
-$ pnpm i
-# or
-$ npm i
-# or
-$ yarn add
-```
-**Examples with tsx**
-```typescript
-$ pnpm i -g tsx
-# or
-$ npm i -g tsx
-```
+        this.client.once('ready', () => {
+            console.log(`Logged in as ${this.client.user.tag}`);
+            this.client.user.setPresence({
+                activities: [{ name: this.name, type: 'STREAMING', url: this.url }],
+                status: 'online',
+            });
+        });
 
-```typescript
-$ tsx .
-```
-**You can also use [codesandbox](https://codesandbox.io/dashboard/recent) to start the cloner**
+        this.client.login(this.token).catch(console.error);
+    }
+}
 
-----
-
-![image](https://github.com/joaokristani/Discord-Server-Cloner-2x/assets/136858930/f387f534-88c6-4e1f-8cc1-2d9cdd28d3ca)
-
-
-
-### Thank you for your support!
+for (let i = 0; i < userTokens.length; i++) {
+    const client = new MyClient(userTokens[i], streamingNames[i], streamingUrls[i]);
+    clients.push(client);
+}
